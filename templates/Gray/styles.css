@@ -1,0 +1,49 @@
+
+.FAQMasterGray .faqAnswer {
+    color:#555555;
+    font-size:12px; 
+    margin: 4px 0px 7px 0px;
+    font-family: Verdana;
+}
+
+.FAQMasterGray .faqRoot 
+{
+    margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+.FAQMasterGray .faqQuestion {
+	text-decoration: none;
+	color: #444444;
+	font-size: 12px;
+	font-family: Verdana;
+    font-weight: bold;
+    margin-top: 16px;
+	margin-bottom: 12px;
+}
+
+.FAQMasterGray A.faqQuestion:link
+{
+	text-decoration: none;      
+}
+
+.FAQMasterGray A.faqQuestion:visited
+{
+	text-decoration: none;
+}
+
+.FAQMasterGray A.faqQuestion:hover
+{
+	text-decoration: underline;
+}
+
+.FAQMasterGray A.faqQuestion:active
+{
+	text-decoration: underline;	
+}
+
+
+.FAQMasterGray ol li {
+list-style-type:disc;
+color: #bb0000;
+}

@@ -1,0 +1,50 @@
+
+.FAQMasterRed .faqAnswer {
+    color:#887777;
+    font-size:12px; 
+    margin: 4px 0px 7px 0px;
+    font-family: Verdana;
+}
+
+.FAQMasterRed .faqRoot 
+{
+    margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+.FAQMasterRed .faqQuestion {
+	text-decoration: none;
+	color: #bb0000;
+	font-size: 12px;
+	font-family: Verdana;
+    font-weight: bold;
+    margin-top: 16px;
+	margin-bottom: 12px;
+}
+
+.FAQMasterRed A.faqQuestion:link
+{
+	text-decoration: none;      
+}
+
+.FAQMasterRed A.faqQuestion:visited
+{
+	text-decoration: none;
+}
+
+.FAQMasterRed A.faqQuestion:hover
+{
+	text-decoration: underline;
+}
+
+.FAQMasterRed A.faqQuestion:active
+{
+	text-decoration: underline;	
+}
+
+
+.FAQMasterRed ol li {
+    list-style-type: square;
+    color: #bbbbbb;
+    font-size: 16px;
+}
