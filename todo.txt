@@ -1,0 +1,7 @@
+
+- new licensing
+- add core project
+- remove avt. from folder name
+- autodelete avt.FAQMaster folder
+- automated build
+- to github

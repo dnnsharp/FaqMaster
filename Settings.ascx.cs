@@ -6,8 +6,9 @@ using System.Web.UI;
 using System.Collections.Generic;
 using System;
 using DotNetNuke.Entities.Modules;
+using DnnSharp.FaqMaster.Core;
 
-namespace avt.FAQMaster
+namespace DnnSharp.FaqMaster
 {
     public partial class Settings : DotNetNuke.Entities.Modules.ModuleSettingsBase
     {
@@ -22,11 +23,11 @@ namespace avt.FAQMaster
             if (!Page.IsPostBack) {
                 
                 // load templates
-                foreach (string dir in Directory.GetDirectories(Server.MapPath("~/DesktopModules/avt.FAQMaster/templates/"))) {
+                foreach (string dir in Directory.GetDirectories(App.BasePath + "/templates/")) {
                     ddTemplates.Items.Add(new ListItem(Path.GetFileName(dir), Path.GetFileName(dir)));
                 }
 
-                FAQMasterSettings settings = new FAQMasterSettings();
+                FaqMasterSettings settings = new FaqMasterSettings();
                 settings.Load(ModuleId);
 
                 if (ModuleSettings.ContainsKey("Template") && ddTemplates.Items.FindByValue(ModuleSettings["Template"].ToString()) != null) {

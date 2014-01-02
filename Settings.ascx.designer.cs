@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace avt.FAQMaster {
+namespace DnnSharp.FaqMaster {
     
     
     public partial class Settings {

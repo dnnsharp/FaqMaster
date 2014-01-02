@@ -1,0 +1,108 @@
+<dotnetnuke version="5.0" type="Package" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <packages>
+    <package name="avt.FaqMaster" type="Module" version="01.00.10">
+      <friendlyName>avt.FaqMaster</friendlyName>
+      <description>A FAQ module.</description>
+      <iconFile>images/icon_dashboard.png</iconFile>
+      <owner>
+        <name>DNN Sharp</name>
+        <organization>DNN Sharp</organization>
+        <url>http://dnnsharp.com/dnn/modules/help/faq-master</url>
+        <email>support@dnnsharp.com</email>
+      </owner>
+      <license src="license.txt" />
+      <releaseNotes src="release-notes.html" />
+      <dependencies>
+        <dependency type="CoreVersion">05.05.00</dependency>
+      </dependencies>
+      <components>
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\DnnSharp\FaqMaster</basePath>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\v1.SqlDataProvider</name>
+              <version>01.00.10</version>
+            </script>
+            <script type="UnInstall">
+              <name>DataProviders\SqlDataProvider\Uninstall.SqlDataProvider</name>
+              <version>01.00.10</version>
+            </script>
+          </scripts>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <name>DnnSharp.FaqMaster.dll</name>
+              <sourceFileName>DnnSharp.FaqMaster.dll</sourceFileName>
+              <version>01.00.10</version>
+            </assembly>
+            <assembly>
+              <name>DnnSharp.FaqMaster.Core.dll</name>
+              <sourceFileName>DnnSharp.FaqMaster.Core.dll</sourceFileName>
+              <version>01.00.10</version>
+            </assembly>
+          </assemblies>
+        </component>
+        <component type="Module">
+          <desktopModule>
+            <moduleName>FAQ Master</moduleName>
+            <foldername>DnnSharp\FaqMaster</foldername>
+            <businessControllerClass>DnnSharp.FaqMaster.FaqMasterController, DnnSharp.FaqMaster.Core</businessControllerClass>
+            <supportedFeatures>
+              <supportedFeature type="Upgradeable" />
+              <supportedFeature type="Portable" />
+              <supportedFeature type="Searchable" />
+            </supportedFeatures>
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>avt.FaqMaster</friendlyName>
+                <defaultCacheTime>-1</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/DnnSharp/FaqMaster/Main.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>DNN API Endpoint</controlTitle>
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Settings</controlKey>
+                    <controlSrc>DesktopModules/DnnSharp/FaqMaster/Settings.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>FAQ Master Settings</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                </moduleControls>
+                <permissions />
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+          <eventMessage>
+            <processorType>DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke</processorType>
+            <processorCommand>UpgradeModule</processorCommand>
+            <attributes>
+              <businessControllerClass>DnnSharp.FaqMaster.Core.FaqMasterController, DnnSharp.FaqMaster.Core</businessControllerClass>
+              <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
+              <upgradeVersionsList>01.00.10</upgradeVersionsList>
+            </attributes>
+          </eventMessage>
+        </component>
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>
+            </basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>

@@ -1,0 +1,470 @@
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Xml;
+using System.Web;
+using System.Web.Configuration;
+using System.Net;
+using System.Web.UI.WebControls;
+using System.Xml.Xsl;
+using System.Xml.XPath;
+using System.Text;
+using Microsoft.ApplicationBlocks.Data;
+using System.Security.Cryptography;
+
+using DotNetNuke;
+using DotNetNuke.Common;
+using DotNetNuke.Common.Lists;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Services.Search;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Security;
+using DotNetNuke.Security.Permissions;
+using DotNetNuke.Security.Roles;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Globalization;
+
+
+namespace DnnSharp.FaqMaster.Core
+{
+
+    public class FaqMasterSettings
+    {
+        public int ModuleId = -1;
+        public string Template = "default";
+        public bool UseAjax = false;
+        public bool UseOwnjQuery = true;
+        public string ShowEffect = "none";
+        public string HideEffect = "none";
+
+
+        public void Load(int moduleId)
+        {
+            ModuleController modCtrl = new ModuleController();
+            Hashtable modSettings = modCtrl.GetModuleSettings(moduleId);
+
+            ModuleId = moduleId;
+            
+            if (modSettings.ContainsKey("Template")) {
+                Template = modSettings["Template"].ToString();
+            }
+
+            // load AJAX switch
+
+            try {
+                UseAjax = Convert.ToBoolean(modSettings["UseAjax"]);
+            } catch { UseAjax = false; }
+
+
+            // load jQuery switch
+            try {
+                if (modSettings["UseOwnjQuery"] == null || string.IsNullOrEmpty(modSettings["UseOwnjQuery"].ToString())) {
+                    throw new Exception();
+                }
+                UseOwnjQuery = Convert.ToBoolean(modSettings["UseOwnjQuery"]);
+            } catch { UseOwnjQuery = true; }
+
+            // load show effect
+            if (modSettings.ContainsKey("ShowEffect")) {
+                ShowEffect = modSettings["ShowEffect"].ToString();
+            }
+
+            // load hide effect
+            if (modSettings.ContainsKey("HideEffect")) {
+                HideEffect = modSettings["HideEffect"].ToString();
+            }
+        }
+
+        public string TemplatePath {
+            get {
+                return string.Format("{0}\\templates\\{1}", App.BasePath, Template);
+            }
+        }
+
+        public string TemplatePathMain {
+            get { return TemplatePath + "\\main.xsl"; }
+        }
+    }
+
+
+
+    public class FaqInfo
+    {
+        int _FaqId;
+        int _ModuleId;
+        string _Question;
+        string _Answer;
+        int _ViewOrder;
+
+        public FaqInfo()
+        {
+            _FaqId = -1;
+        }
+
+        public int FaqId {
+            get { return _FaqId; }
+            set { _FaqId = value; }
+        }
+
+        public int ModuleId {
+            get { return _ModuleId; }
+            set { _ModuleId = value; }
+        }
+
+        public string Question {
+            get { return _Question; }
+            set { _Question = value; }
+        }
+
+        public string Answer {
+            get { return _Answer; }
+            set { _Answer = value; }
+        }
+
+        public int ViewOrder {
+            get { return _ViewOrder; }
+            set { _ViewOrder = value; }
+        }
+    }
+    
+
+    public class FaqMasterController : IPortable, ISearchable, IUpgradeable
+    {
+        static public string RegSrv = "http://www.avatar-soft.ro/DesktopModules/avt.RegCore4/Api.aspx";
+
+        static public string ProductCode = "FAQM";
+        static public string Version = "1.0";
+        static public string VersionAll = "1.0.0";
+
+        static public string DocSrv = RegSrv + "?cmd=doc&product=" + ProductCode + "&version=" + Version;
+        static public string BuyLink = RegSrv + "?cmd=buy&product=" + ProductCode + "&version=" + Version;
+
+        static public string ProductKey = "<RSAKeyValue><Modulus>rSJUC+DY1XNc4yApOiSK33gVqQy07ENpZAUnl+zVC8rsjd6sI9pEAr3ERmAin43CN6UQeHzQnU5qjqJWlSM0vIsSa5jGlzXhG0MsSLi+0wofoD87gzpfD6Zg3BdD8Ac50CnvfL5/zIFjx/9+f5V1q6RFh+tXY+s+IiOLRDpi1AM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+
+        public string _objectQualifier;
+        public string _databaseOwner;
+
+        public FaqMasterController()
+        {
+            // Read the configuration specific information for this provider
+            DotNetNuke.Framework.Providers.ProviderConfiguration _providerConfiguration = DotNetNuke.Framework.Providers.ProviderConfiguration.GetProviderConfiguration("data");
+            DotNetNuke.Framework.Providers.Provider objProvider = (DotNetNuke.Framework.Providers.Provider)_providerConfiguration.Providers[_providerConfiguration.DefaultProvider];
+
+            // Read the attributes for this provider
+            //Get Connection string from web.config
+            string _connectionString = DotNetNuke.Common.Utilities.Config.GetConnectionString();
+
+            if (_connectionString == "") {
+                // Use connection string specified in provider
+                _connectionString = objProvider.Attributes["connectionString"];
+            }
+
+            string _providerPath = objProvider.Attributes["providerPath"];
+
+            _objectQualifier = objProvider.Attributes["objectQualifier"];
+            if (_objectQualifier != "" & _objectQualifier.EndsWith("_") == false) {
+                _objectQualifier += "_";
+            }
+
+            _databaseOwner = objProvider.Attributes["databaseOwner"];
+            if (_databaseOwner != "" & _databaseOwner.EndsWith(".") == false) {
+                _databaseOwner += ".";
+            }
+        }
+
+
+        public XmlDocument MyTokens_GetDefinition()
+        {
+            // since token descriptors are static,
+            // let MyTokens cache it for a reasonable amount of time;
+            // if namespace info would be dynamic (for example, token definitions would change
+            // based on current user roles). then set it to 0 (which is the default).
+            // note this only affects retrieval of token definitions, caching values 
+            // returned from tokens is treaded separately in MyTokens_Replace method
+            //cacheTimeSeconds = 86400; // 1 day
+
+            string xml = @"
+                <mytokens><!-- namespace is Module Name -->
+                    <receiveOnlyKnownTokens>true</receiveOnlyKnownTokens>
+                    <cacheTimeSeconds>86400</cacheTimeSeconds><!-- instructs MyTokens to cache this token definition for specified amount of time; set to 0 to disable caching if token definitions are dynamic (for example, changes based on roles of current user or based on time events) -->
+                    <docurl>http://docs.avatar-soft.ro</docurl>
+                    <token>
+                        <name>LatestFaq</name><!-- case insensitive -->
+                        <desc>Returns latest faq.</desc>
+                        <cacheTimeSeconds>20</cacheTimeSeconds>
+                        <docurl>http://docs.avatar-soft.ro</docurl>
+                        <param>
+                            <name>ModuleId</name><!-- case insensitive -->
+                            <desc>
+                                Id of the module to extract latest faq for. 
+                                Leave empty to retrieve latest FAQ from any FAQMaster module.
+                            </desc>
+                            <type>int</type>
+                            <values></values><!-- only for enums, comma separated list -->
+                            <default>-1</default>
+                            <required>false</required>
+                        </param>
+                        <param>
+                            <name>Item</name><!-- case insensitive -->
+                            <desc>
+                                Tells to retreive either the Question or the Answer.
+                            </desc>
+                            <type>enum</type>
+                            <values>Question,Answer</values><!-- only for enums, comma separated list -->
+                            <default>Question</default>
+                            <required>false</required>
+                        </param>
+                        <example>
+                            <codeSnippet>[FAQMaster:LatestFaq]</codeSnippet>
+                            <desc>Returns question latest added FAQ from any FAQMaster module.</desc>
+                        </example>
+                        <example>
+                            <codeSnippet>[FAQMaster:LatestFaq(Item=Answer)]</codeSnippet>
+                            <desc>Returns answer of latest added FAQ from any FAQMaster module.</desc>
+                        </example><example>
+                            <codeSnippet>[FAQMaster:LatestFaq(ModuleId=123)]</codeSnippet>
+                            <desc>Returns question latest added FAQ from FAQMaster module with id 123.</desc>
+                        </example>
+                        <example>
+                            <codeSnippet>[FAQMaster:LatestFaq(ModuleId=123, Item=Answer)]</codeSnippet>
+                            <desc>Returns answer of latest added FAQ from FAQMaster module with id 123.</desc>
+                        </example>
+                    </token>
+                    <token>
+                        <name>GetFaq</name><!-- case insensitive -->
+                        <desc>Returns a faq by its Id.</desc>
+                        <cacheTimeSeconds>60</cacheTimeSeconds>
+                        <docurl>http://docs.avatar-soft.ro</docurl>
+                        <param>
+                            <name>id</name><!-- case insensitive -->
+                            <desc>
+                                Id of the Faq to retrieve.
+                            </desc>
+                            <type>int</type>
+                            <values></values><!-- only for enums, comma separated list -->
+                            <default>-1</default>
+                            <required>true</required>
+                        </param>
+                        <param>
+                            <name>item</name><!-- case insensitive -->
+                            <desc>
+                                Tells to retreive either the Question or the Answer.
+                            </desc>
+                            <type>enum</type>
+                            <values>Question,Answer</values><!-- only for enums, comma separated list -->
+                            <default>Question</default>
+                            <required>false</required>
+                        </param>
+                    </token>
+                </mytokens>
+            ";
+
+            XmlDocument xmlTknNs = new XmlDocument();
+            xmlTknNs.LoadXml(xml);
+            return xmlTknNs;
+
+            //return new string[] { "Faqs", "LatestFaq" };
+        }
+
+
+        public string MyTokens_ReplaceToken(string tokenNamespace, string tokenName, IDictionary<string, object> tokenParams, CultureInfo formatProvider, UserInfo AccessingUser, ref bool PropertyNotFound, ref bool bRecursivelyReplaceTokens, ref int cacheTimeSeconds)
+        {
+            FaqMasterController faqMasterCtrl = new FaqMasterController();
+
+            //string tmp = "";
+            //foreach (string key in tokenParams.Keys) {
+            //    tmp += key + ":"+ tokenParams[key] + ", ";
+            //}
+            //return tmp;
+
+            switch (tokenName) {
+                case "GetFaq":
+
+                    break;
+                case "LatestFaq":
+                    // HttpContext.Current.Response.Write("get latst faq<br />");
+                    FaqInfo latestFaq = null;
+                    try {
+                        latestFaq = faqMasterCtrl.GetLatestFaq((int)tokenParams["ModuleId".ToLower()]);
+                    } catch {
+                        throw new Exception("Invalid FAQMaster module!");
+                    }
+                    if (latestFaq == null)
+                        throw new Exception("No latest faq!");
+
+                    return tokenParams["item"] == "Question" ? latestFaq.Question : latestFaq.Answer;
+            }
+            PropertyNotFound = true;
+            return "";
+        }
+
+
+        string DotNetNuke.Entities.Modules.IPortable.ExportModule(int ModuleID)
+        {
+            StringBuilder strXML = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.OmitXmlDeclaration = true;
+            
+            XmlWriter Writer = XmlWriter.Create(strXML, settings);
+            Writer.WriteStartElement("faqs");
+
+            foreach (FaqInfo faq in GetFaqs(ModuleID)) {
+                Writer.WriteStartElement("faq");
+                Writer.WriteElementString("question", faq.Question);
+                Writer.WriteElementString("answer", faq.Answer);
+                Writer.WriteElementString("order", faq.ViewOrder.ToString());
+                Writer.WriteEndElement(); // faq
+            }
+            
+            Writer.WriteEndElement(); // faqs
+            Writer.Close();
+
+            return strXML.ToString();
+        }
+
+        void DotNetNuke.Entities.Modules.IPortable.ImportModule(int ModuleID, string Content, string Version, int UserID)
+        {
+            XmlNode xmlFaqs = DotNetNuke.Common.Globals.GetContent(Content, "faqs");
+
+            foreach (XmlElement xmlFaq in xmlFaqs.SelectNodes("/faqs/faq")) {
+                int order = int.MaxValue;
+                try {
+                    order = Convert.ToInt32(xmlFaq["order"].InnerText);
+                } catch { order = int.MaxValue; }
+
+                try {
+                    UpdateFaq(-1, ModuleID, xmlFaq["question"].InnerText, xmlFaq["answer"].InnerText, order);
+                } catch { }
+            }
+        }
+
+
+        SearchItemInfoCollection DotNetNuke.Entities.Modules.ISearchable.GetSearchItems(ModuleInfo ModInfo)
+        {
+            SearchItemInfoCollection searchItems = new SearchItemInfoCollection();
+
+            foreach (FaqInfo faq in GetFaqs(ModInfo.ModuleID)) {
+                searchItems.Add(new SearchItemInfo(ModInfo.ModuleTitle, faq.Question, -1, Null.NullDate, ModInfo.ModuleID, "faq-" + faq.FaqId, faq.Question + " " + faq.Answer, "faqid=" + faq.FaqId.ToString(), Null.NullInteger));
+            }
+
+            return searchItems;
+        }
+
+
+
+        public static string GetCacheKey(int moduleId)
+        {
+            return string.Format("FAQMaster.{0}", moduleId);
+        }
+
+        public static string GetCacheKeyDict(int moduleId)
+        {
+            return string.Format("FAQMaster.dict.{0}", moduleId);
+        }
+
+        public static string GetCacheKeyLatest(int moduleId)
+        {
+            return string.Format("FAQMaster.latest.{0}", moduleId);
+        }
+
+        public int UpdateFaq(int faqId, int moduleId, string question, string answer, int viewOrder)
+        {
+            // clear cache
+            string cacheKey = GetCacheKey(moduleId);
+            HttpRuntime.Cache.Remove(cacheKey);
+
+            string cacheKeyDic = GetCacheKeyDict(moduleId);
+            HttpRuntime.Cache.Remove(cacheKeyDic);
+
+            string cacheKeyLatest = GetCacheKeyLatest(moduleId);
+            HttpRuntime.Cache.Remove(cacheKeyLatest);
+
+            string cacheKeyLatestAll = GetCacheKeyLatest(-1);
+            HttpRuntime.Cache.Remove(cacheKeyLatestAll);
+
+            return DataProvider.Instance().UpdateFaq(faqId, moduleId, question, answer, viewOrder);
+        }
+
+        public List<FaqInfo> GetFaqs(int moduleId)
+        {
+            string cacheKey = GetCacheKey(moduleId);
+            if (HttpRuntime.Cache.Get(cacheKey) == null) {
+                HttpRuntime.Cache.Insert(cacheKey, DotNetNuke.Common.Utilities.CBO.FillCollection<FaqInfo>(DataProvider.Instance().GetFaqs(moduleId)));
+            }
+
+            return (List<FaqInfo>) HttpRuntime.Cache.Get(cacheKey);
+        }
+
+        public FaqInfo GetLatestFaq(int moduleId)
+        {
+            string cacheKey = GetCacheKeyLatest(moduleId);
+            if (HttpRuntime.Cache.Get(cacheKey) == null) {
+                HttpRuntime.Cache.Insert(cacheKey, DotNetNuke.Common.Utilities.CBO.FillObject<FaqInfo>(DataProvider.Instance().GetLatestFaq(moduleId)));
+            }
+
+            return (FaqInfo) HttpRuntime.Cache.Get(cacheKey);
+        }
+
+        public void DeleteItem(int moduleId, int itemId)
+        {
+            // clear cache
+            string cacheKey = GetCacheKey(moduleId);
+            HttpRuntime.Cache.Remove(cacheKey);
+
+            string cacheKeyDic = GetCacheKeyDict(moduleId);
+            HttpRuntime.Cache.Remove(cacheKeyDic);
+
+            string cacheKeyLatest = GetCacheKeyLatest(moduleId);
+            HttpRuntime.Cache.Remove(cacheKeyLatest);
+
+            string cacheKeyLatestAll = GetCacheKeyLatest(-1);
+            HttpRuntime.Cache.Remove(cacheKeyLatestAll);
+
+            DataProvider.Instance().DeleteItem(itemId);
+        }
+
+        public Dictionary<int, FaqInfo> GetFaqsDictionary(int moduleId)
+        {
+            string cacheKey = GetCacheKeyDict(moduleId);
+            if (HttpRuntime.Cache.Get(cacheKey) == null) {
+                Dictionary<int, FaqInfo> faqMap = new Dictionary<int, FaqInfo>();
+                foreach (FaqInfo faq in GetFaqs(moduleId)) {
+                    faqMap[faq.FaqId] = faq;
+                }
+
+                HttpRuntime.Cache.Insert(cacheKey, faqMap);
+            }
+            
+            return (Dictionary<int, FaqInfo>)HttpRuntime.Cache.Get(cacheKey);
+        }
+
+
+
+
+
+        public string UpgradeModule(string Version)
+        {
+            // delete old FAQ folder
+            var oldFaqFolder = App.RootPath + "\\DesktopModules\\avt.FAQMaster";
+            if (Directory.Exists(oldFaqFolder)) {
+                try {
+                    Directory.Delete(oldFaqFolder);
+                } catch {
+                    // it's not that important to remove it
+                }
+            }
+
+            return "done";
+        }
+    }
+
+}

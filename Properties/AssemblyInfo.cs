@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("avt.FAQMaster")]
+[assembly: AssemblyTitle("DnnSharp.FAQMaster")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Avatar Software")]
-[assembly: AssemblyProduct("avt.FAQMaster")]
-[assembly: AssemblyCopyright("Copyright © Avatar Software 2010")]
+[assembly: AssemblyCompany("DNN Sharp")]
+[assembly: AssemblyProduct("FAQ Master")]
+[assembly: AssemblyCopyright("Copyright © DNN Sharp 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

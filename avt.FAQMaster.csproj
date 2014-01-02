@@ -10,9 +10,9 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>avt.FAQMaster</RootNamespace>
-    <AssemblyName>avt.FAQMaster</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RootNamespace>DnnSharp.FaqMaster</RootNamespace>
+    <AssemblyName>DnnSharp.FaqMaster</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -23,6 +23,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <MSBuildCommunityTasksPath>$(SolutionDir)\Build</MSBuildCommunityTasksPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,13 +44,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetNuke, Version=4.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\dnn\DotNetNuke_04.06.02\Bin\DotNetNuke.dll</HintPath>
+    <Reference Include="DotNetNuke">
+      <HintPath>.lib\DotNetNuke.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>.lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,18 +61,6 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\App_Code\avt.FAQMaster\AvtRegCoreClient.cs">
-      <Link>AvtRegCoreClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\App_Code\avt.FAQMaster\DataProvider.cs">
-      <Link>DataProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\App_Code\avt.FAQMaster\FAQMasterController.cs">
-      <Link>FAQMasterController.cs</Link>
-    </Compile>
-    <Compile Include="..\..\App_Code\avt.FAQMaster\SqlDataProvider.cs">
-      <Link>SqlDataProvider.cs</Link>
-    </Compile>
     <Compile Include="Main.ascx.cs">
       <DependentUpon>Main.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -94,8 +85,31 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\readme.txt" />
+    <Content Include="js\jquery-1.3.2.js" />
     <Content Include="Main.ascx" />
+    <Content Include="res\add.gif" />
+    <Content Include="res\delete.gif" />
+    <Content Include="res\edit.gif" />
+    <Content Include="res\node.gif" />
+    <Content Include="res\red_bullet.gif" />
+    <Content Include="res\save.gif" />
     <Content Include="Settings.ascx" />
+    <Content Include="templates\BK_LightGray\bk_general_1x1.png" />
+    <Content Include="templates\BK_LightGray\bk_top.png" />
+    <Content Include="templates\BK_LightGray\main.xsl" />
+    <Content Include="templates\BK_LightGray\styles.css" />
+    <Content Include="templates\BK_LightGray_Blue\bk_general.gif" />
+    <Content Include="templates\BK_LightGray_Blue\bk_general_1x1.png" />
+    <Content Include="templates\BK_LightGray_Blue\bk_top.png" />
+    <Content Include="templates\BK_LightGray_Blue\main.xsl" />
+    <Content Include="templates\BK_LightGray_Blue\styles.css" />
+    <Content Include="templates\default\main.xsl" />
+    <Content Include="templates\default\styles.css" />
+    <Content Include="templates\Gray\main.xsl" />
+    <Content Include="templates\Gray\styles.css" />
+    <Content Include="templates\Red\main.xsl" />
+    <Content Include="templates\Red\styles.css" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\Settings.ascx.resx">
@@ -104,11 +118,33 @@
     <Content Include="module.css" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Content Include="DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\v1.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include=".core\avt.FaqMaster.Core.csproj">
+      <Project>{ad16b11a-1129-4c1d-a138-b10d50c9d20b}</Project>
+      <Name>avt.FaqMaster.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DnnSharp.FaqMaster.dnn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishPackage|AnyCPU'">
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -120,6 +156,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="$(SolutionDir)\Build\MSBuild.Community.Tasks.targets" />
+  <Import Project="$(SolutionDir)\Build\PublishPackage.Targets" />
+  <Target Name="AfterBuild" DependsOnTargets="PublishPackage">
+  </Target>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">

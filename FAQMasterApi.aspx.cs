@@ -18,7 +18,7 @@ using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Security;
 using DotNetNuke.Security.Permissions;
 
-namespace avt.FAQMaster
+namespace DnnSharp.FaqMaster
 {
     public partial class FAQMasterApi : DotNetNuke.Framework.CDefault
     {
