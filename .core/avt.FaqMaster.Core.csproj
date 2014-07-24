@@ -40,6 +40,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DnnSharp.Common">
+      <HintPath>..\.lib\DnnSharp.Common.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetNuke">
       <HintPath>..\.lib\DotNetNuke.dll</HintPath>
     </Reference>
@@ -59,132 +62,6 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="DataProvider.cs" />
-    <Compile Include="DnnSf\Actions\IAction.cs" />
-    <Compile Include="DnnSf\Actions\IActionContext.cs" />
-    <Compile Include="DnnSf\Actions\IActionResult.cs" />
-    <Compile Include="DnnSf\Api\ApiContext.cs" />
-    <Compile Include="DnnSf\Api\SimpleApi.cs" />
-    <Compile Include="DnnSf\Api\WebMethodAttribute.cs" />
-    <Compile Include="DnnSf\ConcurrentQueue.cs" />
-    <Compile Include="DnnSf\ConfigFolder\ConfigFolder.cs" />
-    <Compile Include="DnnSf\ConfigFolder\INotifyDone.cs" />
-    <Compile Include="DnnSf\ControlFinder.cs" />
-    <Compile Include="DnnSf\ConvertUtils.cs" />
-    <Compile Include="DnnSf\Crypt\BigInteger.cs" />
-    <Compile Include="DnnSf\Crypt\CryptUtils.cs" />
-    <Compile Include="DnnSf\Crypt\ezrsa.cs" />
-    <Compile Include="DnnSf\CsvWriter.cs" />
-    <Compile Include="DnnSf\DateUtils.cs" />
-    <Compile Include="DnnSf\DirectoryUtils.cs" />
-    <Compile Include="DnnSf\DnnUrl.cs" />
-    <Compile Include="DnnSf\Dnn\AdminControl.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DnnSf\Dnn\AdminPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DnnSf\Dnn\DnnView.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DnnSf\Dnn\PortalControllerEx.cs" />
-    <Compile Include="DnnSf\Dnn\ProfileDefinitionEx.cs" />
-    <Compile Include="DnnSf\Dnn\RoleControllerEx.cs" />
-    <Compile Include="DnnSf\Dnn\UserControllerEx.cs" />
-    <Compile Include="DnnSf\EnumUtils.cs" />
-    <Compile Include="DnnSf\ExceptionUtils.cs" />
-    <Compile Include="DnnSf\Expressions\CompiledExpression.cs" />
-    <Compile Include="DnnSf\Expressions\ExpressionCompiler.cs" />
-    <Compile Include="DnnSf\Expressions\HelperMethods.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\BinaryOperator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\IndexOperator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\IOperator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\MethodOperator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\Operator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\OperatorCollection.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\OperatorCustomExpressions.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\OpFuncArgs.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\OpFuncServiceLocator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\OpFuncServiceProviders.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\TypeOperator.cs" />
-    <Compile Include="DnnSf\Expressions\Operators\UnaryOperator.cs" />
-    <Compile Include="DnnSf\Expressions\Parser.cs" />
-    <Compile Include="DnnSf\Expressions\Tokens\MemberToken.cs" />
-    <Compile Include="DnnSf\Expressions\Tokens\OpToken.cs" />
-    <Compile Include="DnnSf\Expressions\Tokens\Token.cs" />
-    <Compile Include="DnnSf\Expressions\TypeConversion.cs" />
-    <Compile Include="DnnSf\Expressions\TypeRegistry.cs" />
-    <Compile Include="DnnSf\HtmlUtils.cs" />
-    <Compile Include="DnnSf\Html\CssUtil.cs" />
-    <Compile Include="DnnSf\HttpUtils.cs" />
-    <Compile Include="DnnSf\JsonUtil.cs" />
-    <Compile Include="DnnSf\JsonWriter.cs" />
-    <Compile Include="DnnSf\Licensing\v2\FullSiteLicense.cs" />
-    <Compile Include="DnnSf\Licensing\v2\LicenseBase.cs" />
-    <Compile Include="DnnSf\Licensing\v2\LicenseFactory.cs" />
-    <Compile Include="DnnSf\Licensing\v2\LicenseInfo.cs" />
-    <Compile Include="DnnSf\Licensing\v2\LicenseStatus.cs" />
-    <Compile Include="DnnSf\Licensing\v2\NoLicense.cs" />
-    <Compile Include="DnnSf\Licensing\v2\PortalLicense.cs" />
-    <Compile Include="DnnSf\Licensing\v2\TrialLicense.cs" />
-    <Compile Include="DnnSf\ListItem.cs" />
-    <Compile Include="DnnSf\LiteContainer.cs" />
-    <Compile Include="DnnSf\LocalizedContent.cs" />
-    <Compile Include="DnnSf\Logging\eLogLevel.cs" />
-    <Compile Include="DnnSf\Logging\Logger.cs" />
-    <Compile Include="DnnSf\Logging\LoggerUtil.cs" />
-    <Compile Include="DnnSf\Logging\Target\DnnTarget.cs" />
-    <Compile Include="DnnSf\Logging\Target\ILogTarget.cs" />
-    <Compile Include="DnnSf\Logging\Target\SimpleFileTarget.cs" />
-    <Compile Include="DnnSf\Logging\TypedLogger.cs" />
-    <Compile Include="DnnSf\Logging\Unused.cs" />
-    <Compile Include="DnnSf\ObjectExt.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\ActiveTableBase.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Field.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\FieldAttribute.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\HasManyAttribute.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\PrimaryKey.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\PrimaryKeyAttribute.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\PrimaryKeyField.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\Eq.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\Ge.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\Gt.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\In.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\IRestriction.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\IsNull.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\Le.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\Lt.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Restrictions\NotEq.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\Table.cs" />
-    <Compile Include="DnnSf\Orm\ActiveTable\TableAttribute.cs" />
-    <Compile Include="DnnSf\Orm\CBO.cs" />
-    <Compile Include="DnnSf\Orm\DbUtil.cs" />
-    <Compile Include="DnnSf\Orm\ScaleConfig\ISetting.cs" />
-    <Compile Include="DnnSf\Orm\ScaleConfig\PropertyAttribute.cs" />
-    <Compile Include="DnnSf\Orm\ScaleConfig\ScaleDbConfig.cs" />
-    <Compile Include="DnnSf\Orm\ScaleConfig\SectionAttribute.cs" />
-    <Compile Include="DnnSf\Orm\ScaleConfig\Setting.cs" />
-    <Compile Include="DnnSf\PagedResultSet.cs" />
-    <Compile Include="DnnSf\ReflectionUtil.cs" />
-    <Compile Include="DnnSf\RegexUtil.cs" />
-    <Compile Include="DnnSf\SecurityUtil.cs" />
-    <Compile Include="DnnSf\SettingsDictionary.cs" />
-    <Compile Include="DnnSf\SettingsEngine\Definition.cs" />
-    <Compile Include="DnnSf\SettingsEngine\LocalizedContent.cs" />
-    <Compile Include="DnnSf\SqlUtil.cs" />
-    <Compile Include="DnnSf\StringsDictionary.cs" />
-    <Compile Include="DnnSf\StringWriterWithEncoding.cs" />
-    <Compile Include="DnnSf\TokenUtil.cs" />
-    <Compile Include="DnnSf\UnicodeStrings.cs" />
-    <Compile Include="DnnSf\UriUtil.cs" />
-    <Compile Include="DnnSf\WebConfigUtil.cs" />
-    <Compile Include="DnnSf\XhtmlStringWriter.cs" />
-    <Compile Include="DnnSf\XhtmlWriter.cs" />
-    <Compile Include="DnnSf\XmlDocumentEx.cs" />
-    <Compile Include="DnnSf\XmlUtil.cs" />
-    <Compile Include="DnnSf\XmlWriterEx.cs" />
-    <Compile Include="DnnSf\XslSimpleTransform.cs" />
-    <Compile Include="DnnSf\XslTokens.cs" />
-    <Compile Include="DnnSf\XslUtils.cs" />
     <Compile Include="FAQMasterController.cs" />
     <Compile Include="IFileStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

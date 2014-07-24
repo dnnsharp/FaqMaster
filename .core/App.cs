@@ -1,8 +1,9 @@
-﻿using DnnSharp.FaqMaster.Core.DnnSf;
-using DnnSharp.FaqMaster.Core.DnnSf.Licensing.v2;
-using DnnSharp.FaqMaster.Core.DnnSf.Logging;
-using DnnSharp.FaqMaster.Core.DnnSf.Logging.Target;
+﻿using DnnSharp.Common;
+using DnnSharp.Common.Licensing.v1;
+using DnnSharp.Common.Logging;
+using DnnSharp.Common.Logging.Target;
 using DotNetNuke.Common;
+using DotNetNuke.Entities.Portals;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,7 @@ namespace DnnSharp.FaqMaster.Core
 {
     public class App
     {
+        public static AppInfo Info { get; private set; }
 
         #region Environment
 
@@ -27,24 +29,7 @@ namespace DnnSharp.FaqMaster.Core
         /// </summary>
         public static string RootUrl { get { return HttpRuntime.AppDomainAppVirtualPath.TrimEnd('/'); } }
 
-        /// <summary>
-        /// If HttpRuntime.AppDomainAppPath is not rooted, assume a network location, we've been getting this on Racksapce cloud
-        /// </summary>
-        public static string BasePath { get { return RootPath + "\\DesktopModules\\DnnSharp\\FaqMaster"; } }
-
-        /// <summary>
-        /// The root URL of the DNN Api Endpoint folder
-        /// </summary>
-        public static string BaseUrl { get { return RootUrl + "/DesktopModules/DnnSharp/FaqMaster"; } }
-
-#if DEBUG
-        public const bool IsDebug = true;
-#else
-        public const bool IsDebug = false;
-#endif
-
         #endregion
-
 
         #region Singleton
 
@@ -63,6 +48,87 @@ namespace DnnSharp.FaqMaster.Core
 
         #endregion
 
+        #region Licensing and Registration
+
+        public static bool IsAdmin { get { return DotNetNuke.Entities.Users.UserController.GetCurrentUserInfo().IsInRole(DotNetNuke.Entities.Portals.PortalController.GetCurrentPortalSettings().AdministratorRoleName); } }
+        public static string RegCoreServer { get { return "http://www.dnnsharp.com/DesktopModules/RegCore/"; } }
+
+        public List<System.Web.UI.WebControls.ListItem> Hosts
+        {
+            get
+            {
+                List<System.Web.UI.WebControls.ListItem> hosts = new List<System.Web.UI.WebControls.ListItem>();
+                PortalAliasController paCtrl = new PortalAliasController();
+                foreach (PortalAliasInfo paInfo in PortalAliasController.GetPortalAliasLookup().Values) {
+                    hosts.Add(new System.Web.UI.WebControls.ListItem(paInfo.HTTPAlias, paInfo.HTTPAlias));
+                }
+                return hosts;
+            }
+        }
+
+        internal IActivationDataStore GetActivationSrc()
+        {
+            return new DsLicFile();
+        }
+
+        public static IRegCoreClient RegCore
+        {
+            get
+            {
+                return RegCoreClient.Get(new RegCoreServer(RegCoreServer).ApiScript, App.Info.Code, new DsLicFile(), false);
+            }
+        }
+
+        public static bool IsActivated()
+        {
+            return RegCore.IsActivated(App.Info.Code, App.Info.Version, HttpContext.Current.Request.Url.Host);
+        }
+
+        public static bool IsTrial()
+        {
+            return RegCore.IsTrial(App.Info.Code, App.Info.Version, HttpContext.Current.Request.Url.Host);
+        }
+
+        public static int TrialDaysLeft
+        {
+            get
+            {
+                ILicenseInfo act = RegCore.GetValidActivation(App.Info.Code, App.Info.Version, HttpContext.Current.Request.Url.Host);
+                if (act != null)
+                    return act.RegCode.DaysLeft;
+
+                return -1;
+            }
+        }
+
+        public static string CurrentRegistrationCode
+        {
+            get
+            {
+                ILicenseInfo act = RegCore.GetValidActivation(App.Info.Code, App.Info.Version, HttpContext.Current.Request.Url.Host);
+                if (act != null)
+                    return act.RegistrationCode;
+
+                return "";
+            }
+        }
+
+        public static bool IsTrialExpired()
+        {
+            return RegCore.IsTrialExpired(App.Info.Code, App.Info.Version, HttpContext.Current.Request.Url.Host);
+        }
+
+        public void Activate(string regCode, string host, string actCode)
+        {
+            if (string.IsNullOrEmpty(actCode)) {
+                RegCore.Activate(regCode, App.Info.Code, App.Info.Version, host, App.Info.Key);
+            } else {
+                RegCore.Activate(regCode, App.Info.Code, App.Info.Version, host, App.Info.Key, actCode);
+            }
+        }
+
+        #endregion
+
 
         #region Initialization
 
@@ -72,12 +138,33 @@ namespace DnnSharp.FaqMaster.Core
         {
 
             // app init
-            //InitLogging();
+            Info = new AppInfo() {
+                Name = "FAQ Master",
+                Code = "FAQM",
+                Key = "<RSAKeyValue><Modulus>rSJUC+DY1XNc4yApOiSK33gVqQy07ENpZAUnl+zVC8rsjd6sI9pEAr3ERmAin43CN6UQeHzQnU5qjqJWlSM0vIsSa5jGlzXhG0MsSLi+0wofoD87gzpfD6Zg3BdD8Ac50CnvfL5/zIFjx/9+f5V1q6RFh+tXY+s+IiOLRDpi1AM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>",
+
+                Version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version.ToString(2) + ".0",
+                Build = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version.ToString(3),
+
+                BasePath = RootPath + "\\DesktopModules\\DnnSharp\\FaqMaster",
+                BaseUrl = RootUrl + "/DesktopModules/DnnSharp/FaqMaster",
+#if DEBUG
+                IsDebug = true,
+#else
+                IsDebug = false,
+#endif
+            };
+            // IsActivated depends on AppInfo, that's why we put it down here
+            Info.IsActivated = App.IsActivated();
 
             // init container
             Container = new LiteContainer();
             Container.RegisterProperty("ConnectionString", () => DotNetNuke.Common.Utilities.Config.GetConnectionString());
-            Container.RegisterProperty("License", () => LicenseFactory.Get(LicenseFilePath, Version, ProductKey));
+            //Container.RegisterProperty("License", () => LicenseFactory.Get(LicenseFilePath, Version, ProductKey));
+
+            // also populate the static AppContainer
+            LiteContainer.AppContainer.RegisterProperty("RootUrl", () => App.RootUrl);
+            LiteContainer.AppContainer.RegisterProperty("RootPath", () => App.RootPath);
 
             //Logger = new TypedLogger<FaqMasterSettings>();
             //Logger.FnLevel = (FaqMasterSettings data, eLogLevel currentMinLevel) => {
@@ -108,65 +195,65 @@ namespace DnnSharp.FaqMaster.Core
         #endregion
 
 
-        #region Licensing
+        //#region Licensing
 
-        static string LicensingUrl = "http://www.dnnsharp.com/DesktopModules/RegCore/Api.ashx?Method={0}&product=" + ProductCode + "&version=" + Version;
-        public static string BuyUrl = string.Format(LicensingUrl, "Buy");
-        public static string DocUrl = string.Format(LicensingUrl, "Doc");
+        //static string LicensingUrl = "http://www.dnnsharp.com/DesktopModules/RegCore/Api.ashx?Method={0}&product=" + ProductCode + "&version=" + Version;
+        //public static string BuyUrl = string.Format(LicensingUrl, "Buy");
+        //public static string DocUrl = string.Format(LicensingUrl, "Doc");
 
-        public const string ProductName = "FAQ Master";
-        public const string ProductCode = "FAQM";
-        public const string ProductKey = "<RSAKeyValue><Modulus>rSJUC+DY1XNc4yApOiSK33gVqQy07ENpZAUnl+zVC8rsjd6sI9pEAr3ERmAin43CN6UQeHzQnU5qjqJWlSM0vIsSa5jGlzXhG0MsSLi+0wofoD87gzpfD6Zg3BdD8Ac50CnvfL5/zIFjx/9+f5V1q6RFh+tXY+s+IiOLRDpi1AM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+        //public const string ProductName = "FAQ Master";
+        //public const string ProductCode = "FAQM";
+        //public const string ProductKey = "<RSAKeyValue><Modulus>rSJUC+DY1XNc4yApOiSK33gVqQy07ENpZAUnl+zVC8rsjd6sI9pEAr3ERmAin43CN6UQeHzQnU5qjqJWlSM0vIsSa5jGlzXhG0MsSLi+0wofoD87gzpfD6Zg3BdD8Ac50CnvfL5/zIFjx/9+f5V1q6RFh+tXY+s+IiOLRDpi1AM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
-        public static string Version
-        {
-            get
-            {
-                var version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version;
-                return version.ToString(2);
-            }
-        }
+        //public static string Version
+        //{
+        //    get
+        //    {
+        //        var version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version;
+        //        return version.ToString(2);
+        //    }
+        //}
 
-        public static string Build
-        {
-            get
-            {
-                var version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version;
-                return version.ToString(3);
-            }
-        }
+        //public static string Build
+        //{
+        //    get
+        //    {
+        //        var version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version;
+        //        return version.ToString(3);
+        //    }
+        //}
 
-        static string LicenseFilePath
-        {
-            get
-            {
-                var asm = System.Reflection.Assembly.GetAssembly(typeof(App));
-                var asmPath = asm.CodeBase.Replace("file:///", "").Replace('/', '\\');
+        //static string LicenseFilePath
+        //{
+        //    get
+        //    {
+        //        var asm = System.Reflection.Assembly.GetAssembly(typeof(App));
+        //        var asmPath = asm.CodeBase.Replace("file:///", "").Replace('/', '\\');
 
-                if (Path.GetExtension(asmPath).ToLower() == ".dll") {
-                    asmPath = Path.GetDirectoryName(asmPath);
-                }
+        //        if (Path.GetExtension(asmPath).ToLower() == ".dll") {
+        //            asmPath = Path.GetDirectoryName(asmPath);
+        //        }
 
-                if (asmPath.IndexOf(System.AppDomain.CurrentDomain.BaseDirectory.Replace('/', '\\')) == -1) {
-                    // it's not in the bin folder
-                    asmPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "bin");
-                }
+        //        if (asmPath.IndexOf(System.AppDomain.CurrentDomain.BaseDirectory.Replace('/', '\\')) == -1) {
+        //            // it's not in the bin folder
+        //            asmPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "bin");
+        //        }
 
-                return Path.Combine(asmPath, asm.GetName().Name.Replace(".Core", "") + ".lic");
-            }
-        }
+        //        return Path.Combine(asmPath, asm.GetName().Name.Replace(".Core", "") + ".lic");
+        //    }
+        //}
 
-        public LicenseBase License
-        {
-            get { return Container.ResolveProperty("License") as LicenseBase; }
-        }
+        //public LicenseBase License
+        //{
+        //    get { return Container.ResolveProperty("License") as LicenseBase; }
+        //}
 
-        public bool IsActivated
-        {
-            get { return License.Status.Type != LicenseStatus.eType.Error; }
-        }
+        //public bool IsActivated
+        //{
+        //    get { return License.Status.Type != LicenseStatus.eType.Error; }
+        //}
 
-        #endregion
+        //#endregion
 
 
         const string MasterCacheKey = "DnnSharp.FaqMaster";

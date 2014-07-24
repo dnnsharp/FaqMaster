@@ -1,41 +1,19 @@
 
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Services.Search;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Xml;
-using System.Web;
-using System.Web.Configuration;
-using System.Net;
-using System.Web.UI.WebControls;
-using System.Xml.Xsl;
-using System.Xml.XPath;
-using System.Text;
-using Microsoft.ApplicationBlocks.Data;
-using System.Security.Cryptography;
-
-using DotNetNuke;
-using DotNetNuke.Common;
-using DotNetNuke.Common.Lists;
-using DotNetNuke.Common.Utilities;
-using DotNetNuke.Entities.Tabs;
-using DotNetNuke.Entities.Modules;
-using DotNetNuke.Entities.Portals;
-using DotNetNuke.Services.Search;
-using DotNetNuke.Entities.Users;
-using DotNetNuke.Security;
-using DotNetNuke.Security.Permissions;
-using DotNetNuke.Security.Roles;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Globalization;
-
+using System.IO;
+using System.Text;
+using System.Web;
+using System.Xml;
 
 namespace DnnSharp.FaqMaster.Core
 {
-
     public class FaqMasterSettings
     {
         public int ModuleId = -1;
@@ -85,7 +63,7 @@ namespace DnnSharp.FaqMaster.Core
 
         public string TemplatePath {
             get {
-                return string.Format("{0}\\templates\\{1}", App.BasePath, Template);
+                return string.Format("{0}\\templates\\{1}", App.Info.BasePath, Template);
             }
         }
 
@@ -94,45 +72,22 @@ namespace DnnSharp.FaqMaster.Core
         }
     }
 
-
-
     public class FaqInfo
     {
-        int _FaqId;
-        int _ModuleId;
-        string _Question;
-        string _Answer;
-        int _ViewOrder;
-
         public FaqInfo()
         {
-            _FaqId = -1;
+            FaqId = -1;
         }
 
-        public int FaqId {
-            get { return _FaqId; }
-            set { _FaqId = value; }
-        }
+        public int FaqId { get; set; }
 
-        public int ModuleId {
-            get { return _ModuleId; }
-            set { _ModuleId = value; }
-        }
+        public int ModuleId { get; set; }
 
-        public string Question {
-            get { return _Question; }
-            set { _Question = value; }
-        }
+        public string Question { get; set; }
 
-        public string Answer {
-            get { return _Answer; }
-            set { _Answer = value; }
-        }
+        public string Answer { get; set; }
 
-        public int ViewOrder {
-            get { return _ViewOrder; }
-            set { _ViewOrder = value; }
-        }
+        public int ViewOrder { get; set; }
     }
     
 
