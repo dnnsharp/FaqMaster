@@ -1,4 +1,5 @@
 
+using DnnSharp.Common.Dnn;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Users;
@@ -288,7 +289,7 @@ namespace DnnSharp.FaqMaster.Core
 
         void DotNetNuke.Entities.Modules.IPortable.ImportModule(int ModuleID, string Content, string Version, int UserID)
         {
-            XmlNode xmlFaqs = DotNetNuke.Common.Globals.GetContent(Content, "faqs");
+            XmlNode xmlFaqs = ModuleApi.GetImportNode(Content, "faqs");
 
             foreach (XmlElement xmlFaq in xmlFaqs.SelectNodes("/faqs/faq")) {
                 int order = int.MaxValue;
