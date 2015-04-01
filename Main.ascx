@@ -1,11 +1,10 @@
-<%@ Control language="C#" Inherits="DnnSharp.FaqMaster.Main" AutoEventWireup="true" Explicit="True" CodeBehind="Main.ascx.cs" %>
+<%@ Control language="C#" Inherits="DnnSharp.FaqMaster.Main" AutoEventWireup="true" Explicit="True" CodeFile="Main.ascx.cs" %>
 
 <div id = "pnlFaqs" runat  = "server" >
     
 </div>
 
-<div runat = "server" id = "pnlActivate" style = "color: #cc4444; font-weight: bold;">
-    This copy of FAQ Master is not activated. Make sure to download your copy from DNN Store or DNN Sharp &gt; My Account.
+<div runat = "server" id = "pnlActivate" style = "font-weight: bold; border-top: 1px solid #999; padding: 10px 0;">
 </div>
 
 <div id = "pnlAddFaq" runat = "server" visible = "false" style = "margin-top: 20px;">
@@ -36,9 +35,6 @@
     
     <asp:LinkButton runat = "server" ID = "btnSave" OnClick = "OnUpdateFaq"  class = "blue add_icon" Text = "Save"></asp:LinkButton>
     <asp:LinkButton ID="btnDelete" runat = "server" OnClick = "OnDeleteFaq"  class = "blue delete_icon" Text = "Delete" style = "margin-left: 10px;" Visible = "false" OnClientClick = "return confirm('Are you sure you want to delete this faq?');" CausesValidation = "false"></asp:LinkButton>
-    
  
 </div>
-
-
 

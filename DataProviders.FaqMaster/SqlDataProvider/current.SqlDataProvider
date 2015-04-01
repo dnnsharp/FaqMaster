@@ -1,0 +1,119 @@
+﻿
+
+----------------------------------------------------------------------------------------------------
+--- 1.0
+--- BIG WARNING: Sql files that begin with "Install" are handled differently by DNN - they're only executed on first install
+----------------------------------------------------------------------------------------------------
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- DROP old activation table
+---------------------------------------------------------------------------------------------------------------------------------------
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}avtFAQMaster_Activations]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+    DROP TABLE {databaseOwner}[{objectQualifier}avtFAQMaster_Activations]
+GO
+
+
+-- FAQs table
+---------------------------------------------------------------------------------------------------------------------------------------
+
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}avtFAQMaster_Faqs]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+
+
+	CREATE TABLE {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs](
+		[FaqId] [int] IDENTITY(1,1) NOT NULL,
+		[ModuleId] [int] NOT NULL,
+		[Question] [ntext] NOT NULL,
+		[Answer] [ntext] NOT NULL,
+		[ViewOrder] [int] NOT NULL,
+	 CONSTRAINT [PK_{objectQualifier}avtFAQMaster_Faqs] PRIMARY KEY CLUSTERED 
+	(
+		[FaqId] ASC
+	)
+	) ON [PRIMARY]
+
+GO
+
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'{databaseOwner}[FK_{objectQualifier}avtFAQMaster_Faqs_{objectQualifier}Modules]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+BEGIN
+    ALTER TABLE {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs]  WITH CHECK ADD  CONSTRAINT [FK_{objectQualifier}avtFAQMaster_Faqs_{objectQualifier}Modules] FOREIGN KEY([ModuleId])
+    REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs] CHECK CONSTRAINT [FK_{objectQualifier}avtFAQMaster_Faqs_{objectQualifier}Modules]
+END
+GO
+
+
+-- DROP all Procs and recreate them
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}avtFAQMaster_GetFaqs]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}avtFAQMaster_GetFaqs]
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}avtFAQMaster_UpdateFaq]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}avtFAQMaster_UpdateFaq]
+GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}avtFAQMaster_DeleteItem]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}avtFAQMaster_DeleteItem]
+GO
+
+
+CREATE procedure {databaseOwner}[{objectQualifier}avtFAQMaster_GetFaqs]
+
+	@moduleId		int
+
+as
+
+	SELECT * FROM {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs]
+    WHERE ModuleId = @moduleId
+    Order By ViewOrder
+
+GO
+
+
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}avtFAQMaster_UpdateFaq]
+
+	@faqId			int,
+	@moduleId		int,
+	@question		ntext,
+	@answer			ntext,
+	@order			int
+
+AS
+
+If @faqId > 0
+BEGIN
+	UPDATE  {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs]
+		SET Question = @question, Answer = @answer, ViewOrder = @order
+	WHERE FaqId = @faqId
+	SELECT @faqId
+END
+ELSE
+	INSERT INTO {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs] (ModuleId, Question, Answer, ViewOrder)
+		VALUES (@moduleId, @question, @answer, @order)
+
+GO
+
+
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}avtFAQMaster_DeleteItem]
+
+	@ItemID		int
+
+AS
+
+	DELETE FROM  {databaseOwner}[{objectQualifier}avtFAQMaster_Faqs] WHERE FaqId = @ItemID
+ 
+GO
+
+
+

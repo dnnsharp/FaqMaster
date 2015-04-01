@@ -1,22 +1,5 @@
 using System;
 using System.Web;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml;
-using System.Xml.Xsl;
-using System.Xml.XPath;
-using System.Text.RegularExpressions;
-
-using DotNetNuke;
-using DotNetNuke.Framework;
-using DotNetNuke.Entities.Tabs;
-using DotNetNuke.Entities.Modules;
-using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Security;
-using DotNetNuke.Security.Permissions;
 
 namespace DnnSharp.FaqMaster
 {

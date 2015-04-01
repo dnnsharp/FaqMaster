@@ -15,7 +15,7 @@ using DotNetNuke.Framework;
 using System.Web;
 using System.Reflection;
 using DnnSharp.FaqMaster.Core;
-using DnnSharp.FaqMaster.Core.DnnSf;
+using DnnSharp.Common;
 
 namespace DnnSharp.FaqMaster
 {
@@ -43,7 +43,20 @@ namespace DnnSharp.FaqMaster
                 // admin panel
                 pnlAddFaq.Visible = HasAdminRights();
 
-                pnlActivate.Visible = !App.Instance.IsActivated;
+                var licensStatus = new DnnSharp.Common.Licensing.v3.RegCoreClient().IsActivated(App.Info);
+                pnlActivate.Visible = false;
+                var activationUrl = string.Format("{0}/RegCore/Activate.aspx?returnurl={1}", TemplateSourceDirectory, HttpUtility.UrlEncode(Request.RawUrl));
+                if (licensStatus.Code != Common.Licensing.v3.LicenseStatus.eCode.Ok) {
+                    //pnlActivate.Visible = !App.IsActivated();
+                    pnlActivate.InnerHtml = licensStatus.Message +
+                        string.Format("<br /><a href=\"{0}\">Activate or Unlock Trial.</a>", activationUrl);
+                    pnlActivate.Style["color"] = "#cc4444";
+                    pnlActivate.Visible = true;
+                } else if (HasAdminRights()) {
+                    pnlActivate.InnerHtml = licensStatus.Message +
+                        string.Format("<br /><a href=\"{0}\">Add more licenses.</a>", activationUrl);
+                    pnlActivate.Visible = true;
+                }
                 BindFaqs();
             }
         }
@@ -202,15 +215,19 @@ namespace DnnSharp.FaqMaster
 
             Writer.WriteStartElement("faqs");
 
+            var tknParams = new TokenParameters() {
+                Module = ModuleConfiguration,
+                User = UserInfo,
+                Portal = PortalSettings
+            };
 
-            Random r = new Random();
-            if (App.Instance.IsActivated) {
+            if (App.IsActivated()) {
                 foreach (FaqInfo faq in faqs) {
                     Writer.WriteStartElement("faq");
                     Writer.WriteElementString("id", faq.FaqId.ToString());
                     Writer.WriteElementString("relPath", "#faq-" + ModuleId.ToString() + "-" + faq.FaqId.ToString());
-                    Writer.WriteElementString("question", TokenUtil.Tokenize(faq.Question, ModuleConfiguration, UserInfo, false, true).Replace("\n", "<br />"));
-                    Writer.WriteElementString("answer", TokenUtil.Tokenize(faq.Answer, ModuleConfiguration, UserInfo, false, true).Replace("\n", "<br />"));
+                    Writer.WriteElementString("question", TokenUtil.Tokenize(faq.Question, tknParams).Replace("\n", "<br />"));
+                    Writer.WriteElementString("answer", TokenUtil.Tokenize(faq.Answer, tknParams).Replace("\n", "<br />"));
                     Writer.WriteElementString("index", faq.ViewOrder.ToString());
                     Writer.WriteElementString("opened", activeFaq == faq.FaqId ? "true" : "false");
                     Writer.WriteEndElement(); // faq
@@ -244,9 +261,9 @@ namespace DnnSharp.FaqMaster
 
             // add includes
             if (settings.UseOwnjQuery) {
-                Page.ClientScript.RegisterClientScriptInclude("avt_jQuery_1_3_2_FAQM", TemplateSourceDirectory + "/js/jquery-1.3.2.js");
+                Page.ClientScript.RegisterClientScriptInclude(typeof(Page), "dnnsfjQuery", TemplateSourceDirectory + "/static/jquery.min.js?v=" + DnnSharp.FaqMaster.Core.App.Info.Build);
             } else {
-                Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "avt_jQuery_1_3_2_FAQM", "var avt_jQuery_1_3_2_FAQM = jQuery;", true);
+                Page.ClientScript.RegisterClientScriptBlock(typeof(Page), "dnnsfjQuery", "if (typeof(dnnsfjQuery) == 'undefined') dnnsfjQuery = jQuery;", true);
             }
 
             //Response.Write(ModuleId);

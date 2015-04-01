@@ -1,4 +1,4 @@
-<%@ Control Inherits="DnnSharp.FaqMaster.Settings" language="C#" AutoEventWireup="true" Explicit="true" CodeBehind="Settings.ascx.cs" %>
+<%@ Control Inherits="DnnSharp.FaqMaster.Settings" language="C#" AutoEventWireup="true" Explicit="true" CodeFile="Settings.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 
 <table cellspacing="0" cellpadding="4" border="0" width = "100%" style = "font-size: small;">

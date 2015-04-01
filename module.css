@@ -37,41 +37,41 @@ A.blue:active
 }
 
 .edit_icon {
-    background-image: url(res/edit.gif); 
+    background-image: url(static/img/edit.gif); 
     background-repeat: no-repeat;
     padding-left : 18px;
     margin-left : 6px;
 }
 
 .delete_icon {
-    background-image: url(res/delete.gif); 
+    background-image: url(static/img/delete.gif); 
     background-repeat: no-repeat;
     padding-left : 18px;
     margin-left : 6px;
 }
 
 .back_icon {
-    background-image: url(res/lt.gif); 
+    background-image: url(static/img/lt.gif); 
     background-repeat: no-repeat;
     padding-left : 18px;
     margin-left : 6px;
 }
 .fwd_icon {
-    background-image: url(res/rt.gif); 
+    background-image: url(static/img/rt.gif); 
     background-repeat: no-repeat;
     padding-left : 18px;
     margin-left : 6px;
 }
 
 .cancel_icon {
-    background-image: url(res/cancel.gif); 
+    background-image: url(static/img/cancel.gif); 
     background-repeat: no-repeat;
     padding-left : 18px;
     margin-left : 6px;
 }
 
 .add_icon {
-    background-image: url(res/add.gif); 
+    background-image: url(static/img/add.gif); 
     background-repeat: no-repeat;
     padding-left : 20px;
     margin-left : 6px;

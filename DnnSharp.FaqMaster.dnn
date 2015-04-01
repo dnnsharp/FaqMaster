@@ -1,9 +1,9 @@
 <dotnetnuke version="5.0" type="Package" xmlns:fo="http://www.w3.org/1999/XSL/Format">
   <packages>
-    <package name="avt.FaqMaster" type="Module" version="01.00.10">
+    <package name="avt.FaqMaster" type="Module" version="01.00.17">
       <friendlyName>avt.FaqMaster</friendlyName>
       <description>A FAQ module.</description>
-      <iconFile>images/icon_dashboard.png</iconFile>
+      <iconFile>~/DesktopModules/DnnSharp/FaqMaster/static/images/faq-master-32x32t.png</iconFile>
       <owner>
         <name>DNN Sharp</name>
         <organization>DNN Sharp</organization>
@@ -12,6 +12,7 @@
       </owner>
       <license src="license.txt" />
       <releaseNotes src="release-notes.html" />
+      <azureCompatible>true</azureCompatible>
       <dependencies>
         <dependency type="CoreVersion">05.05.00</dependency>
       </dependencies>
@@ -20,12 +21,14 @@
           <scripts>
             <basePath>DesktopModules\DnnSharp\FaqMaster</basePath>
             <script type="Install">
-              <name>DataProviders\SqlDataProvider\v1.SqlDataProvider</name>
-              <version>01.00.10</version>
+              <path>DataProviders.FaqMaster\SqlDataProvider</path>
+              <name>01.00.17.SqlDataProvider</name>
+              <version>01.00.17</version>
             </script>
             <script type="UnInstall">
-              <name>DataProviders\SqlDataProvider\Uninstall.SqlDataProvider</name>
-              <version>01.00.10</version>
+              <path>DataProviders.FaqMaster\SqlDataProvider</path>
+              <name>Uninstall.SqlDataProvider</name>
+              <version>01.00.17</version>
             </script>
           </scripts>
         </component>
@@ -34,12 +37,12 @@
             <assembly>
               <name>DnnSharp.FaqMaster.dll</name>
               <sourceFileName>DnnSharp.FaqMaster.dll</sourceFileName>
-              <version>01.00.10</version>
+              <version>01.00.17</version>
             </assembly>
             <assembly>
               <name>DnnSharp.FaqMaster.Core.dll</name>
               <sourceFileName>DnnSharp.FaqMaster.Core.dll</sourceFileName>
-              <version>01.00.10</version>
+              <version>01.00.14</version>
             </assembly>
           </assemblies>
         </component>
@@ -47,7 +50,7 @@
           <desktopModule>
             <moduleName>FAQ Master</moduleName>
             <foldername>DnnSharp\FaqMaster</foldername>
-            <businessControllerClass>DnnSharp.FaqMaster.FaqMasterController, DnnSharp.FaqMaster.Core</businessControllerClass>
+            <businessControllerClass>DnnSharp.FaqMaster.Core.FaqMasterController, DnnSharp.FaqMaster.Core</businessControllerClass>
             <supportedFeatures>
               <supportedFeature type="Upgradeable" />
               <supportedFeature type="Portable" />
@@ -61,8 +64,8 @@
                   <moduleControl>
                     <controlKey />
                     <controlSrc>DesktopModules/DnnSharp/FaqMaster/Main.ascx</controlSrc>
-                    <supportsPartialRendering />
-                    <controlTitle>DNN API Endpoint</controlTitle>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>FAQs</controlTitle>
                     <controlType>View</controlType>
                     <iconFile />
                     <helpUrl />
@@ -93,12 +96,20 @@
             </attributes>
           </eventMessage>
         </component>
+        <component type="File">
+          <files>
+            <basePath>/DesktopModules/DnnSharp/FaqMaster/backup</basePath>
+            <file>
+              <name>DnnSharp.Common.dll</name>
+              <sourceFileName>DnnSharp.Common.dll</sourceFileName>
+            </file>
+          </files>
+        </component>
         <component type="ResourceFile">
           <resourceFiles>
-            <basePath>
-            </basePath>
+            <basePath>/DesktopModules/DnnSharp/FaqMaster</basePath>
             <resourceFile>
-              <name>Resources.zip</name>
+              <name>Resources.FaqMaster.zip</name>
             </resourceFile>
           </resourceFiles>
         </component>
