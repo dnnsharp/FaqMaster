@@ -1,6 +1,6 @@
 <dotnetnuke version="5.0" type="Package" xmlns:fo="http://www.w3.org/1999/XSL/Format">
   <packages>
-    <package name="avt.FaqMaster" type="Module" version="01.00.17">
+    <package name="avt.FaqMaster" type="Module" version="01.00.18">
       <friendlyName>avt.FaqMaster</friendlyName>
       <description>A FAQ module.</description>
       <iconFile>~/DesktopModules/DnnSharp/FaqMaster/static/images/faq-master-32x32t.png</iconFile>
@@ -22,13 +22,13 @@
             <basePath>DesktopModules\DnnSharp\FaqMaster</basePath>
             <script type="Install">
               <path>DataProviders.FaqMaster\SqlDataProvider</path>
-              <name>01.00.17.SqlDataProvider</name>
-              <version>01.00.17</version>
+              <name>01.00.18.SqlDataProvider</name>
+              <version>01.00.18</version>
             </script>
             <script type="UnInstall">
               <path>DataProviders.FaqMaster\SqlDataProvider</path>
               <name>Uninstall.SqlDataProvider</name>
-              <version>01.00.17</version>
+              <version>01.00.18</version>
             </script>
           </scripts>
         </component>
@@ -37,12 +37,12 @@
             <assembly>
               <name>DnnSharp.FaqMaster.dll</name>
               <sourceFileName>DnnSharp.FaqMaster.dll</sourceFileName>
-              <version>01.00.17</version>
+              <version>01.00.18</version>
             </assembly>
             <assembly>
               <name>DnnSharp.FaqMaster.Core.dll</name>
               <sourceFileName>DnnSharp.FaqMaster.Core.dll</sourceFileName>
-              <version>01.00.14</version>
+              <version>01.00.18</version>
             </assembly>
           </assemblies>
         </component>
