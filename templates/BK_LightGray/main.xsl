@@ -28,9 +28,9 @@
     
     <script type = "text/javascript">
 
-        avt_jQuery_1_3_2_FAQM(document).ready(function() {
+        dnnsfjQuery(document).ready(function() {
 
-            var _root = avt_jQuery_1_3_2_FAQM("#<xsl:value-of select="/root/rootElementId"/>");
+            var _root = dnnsfjQuery("#<xsl:value-of select="/root/rootElementId"/>");
             var _selItem = _root.find("a.faqQuestion[href="+ window.location.hash + "]").next(".faqAnswer");
             if (_selItem.length > 0) {
                 _root.find(".faqAnswer").hide();
@@ -39,7 +39,7 @@
             
             _root.find(".faqQuestion").unbind("click");
             _root.find(".faqQuestion").click(function() {
-                var _this = avt_jQuery_1_3_2_FAQM(this);
+                var _this = dnnsfjQuery(this);
                 var _answersVisible = _this.parents(".FAQMasterRoot:first").find(".faqAnswer:visible");
                 if (_answersVisible.size() > 0) {
                     _this.parents(".FAQMasterRoot:first").find(".faqAnswer:visible").animate({ opacity: 0, height: 'hide' }, "fast", "linear", function() {
