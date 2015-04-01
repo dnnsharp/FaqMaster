@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DnnSharp.FaqMaster</RootNamespace>
+    <AssemblyName>DnnSharp.FaqMaster</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DnnSharp.Common">
+      <HintPath>.lib\DnnSharp.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke">
+      <HintPath>.lib\DotNetNuke.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.ascx.cs">
+      <DependentUpon>Main.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQMasterApi.aspx.cs">
+      <DependentUpon>FAQMasterApi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQMasterApi.aspx.designer.cs">
+      <DependentUpon>FAQMasterApi.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Main.ascx.designer.cs">
+      <DependentUpon>Main.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegCore\Activate.aspx.cs">
+      <DependentUpon>Activate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.ascx.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.ascx.designer.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders.FaqMaster\SqlDataProvider\readme.txt" />
+    <Content Include="license.txt" />
+    <Content Include="Main.ascx" />
+    <Content Include="RegCore\Activate.aspx" />
+    <Content Include="release-notes.html" />
+    <Content Include="Settings.ascx" />
+    <Content Include="static\angular\angular-animate.js" />
+    <Content Include="static\angular\angular-animate.min.js" />
+    <Content Include="static\angular\angular-aria.min.js" />
+    <Content Include="static\angular\angular-cookies.min.js" />
+    <Content Include="static\angular\angular-dnd.min.js" />
+    <Content Include="static\angular\angular-dragdrop.js" />
+    <Content Include="static\angular\angular-dragdrop.min.js" />
+    <Content Include="static\angular\angular-loader.min.js" />
+    <Content Include="static\angular\angular-messages.min.js" />
+    <Content Include="static\angular\angular-resource.min.js" />
+    <Content Include="static\angular\angular-route.min.js" />
+    <Content Include="static\angular\angular-sanitize.min.js" />
+    <Content Include="static\angular\angular-sortable.min.js" />
+    <Content Include="static\angular\angular-spanresize.js" />
+    <Content Include="static\angular\angular-strap.min.js" />
+    <Content Include="static\angular\angular-touch.min.js" />
+    <Content Include="static\angular\angular.min.js" />
+    <Content Include="static\angular\bootstrap-select.min.css" />
+    <Content Include="static\angular\bootstrap-select.min.js" />
+    <Content Include="static\angular\textAngular-sanitize.min.js" />
+    <Content Include="static\angular\textAngular.js" />
+    <Content Include="static\angular\textAngular.min.js" />
+    <Content Include="static\angular\ui-codemirror.js" />
+    <Content Include="static\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="static\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="static\bootstrap\css\bootstrap.css" />
+    <Content Include="static\bootstrap\css\bootstrap.min.css" />
+    <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="static\bootstrap\js\bootstrap.js" />
+    <Content Include="static\bootstrap\js\bootstrap.min.js" />
+    <Content Include="static\bootstrap\js\npm.js" />
+    <Content Include="static\dnnsf\activate.js" />
+    <Content Include="static\dnnsf\css\activate.css" />
+    <Content Include="static\dnnsf\dnnsf.js" />
+    <Content Include="static\dnnsf\tpl\activate.html" />
+    <Content Include="static\images\faq-master-32x32t.png" />
+    <Content Include="static\img\loading.gif" />
+    <Content Include="static\jquery.min.js" />
+    <Content Include="static\modernizr.min.js" />
+    <Content Include="templates\BK_LightGray\bk_general_1x1.png" />
+    <Content Include="templates\BK_LightGray\bk_top.png" />
+    <Content Include="templates\BK_LightGray\main.xsl" />
+    <Content Include="templates\BK_LightGray\styles.css" />
+    <Content Include="templates\BK_LightGray_Blue\bk_general.gif" />
+    <Content Include="templates\BK_LightGray_Blue\bk_general_1x1.png" />
+    <Content Include="templates\BK_LightGray_Blue\bk_top.png" />
+    <Content Include="templates\BK_LightGray_Blue\main.xsl" />
+    <Content Include="templates\BK_LightGray_Blue\styles.css" />
+    <Content Include="templates\default\main.xsl" />
+    <Content Include="templates\default\styles.css" />
+    <Content Include="templates\Gray\main.xsl" />
+    <Content Include="templates\Gray\styles.css" />
+    <Content Include="templates\Red\main.xsl" />
+    <Content Include="templates\Red\styles.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Settings.ascx.resx">
+    </Content>
+    <Content Include="FAQMasterApi.aspx" />
+    <Content Include="module.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders.FaqMaster\SqlDataProvider\Uninstall.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DnnSharp.FaqMaster.dnn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="static\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="static\bootstrap\css\bootstrap.css.map" />
+    <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="static\dnnsf\css\activate.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AdminApi.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders.FaqMaster\SqlDataProvider\current.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="DnnSharp.FaqMaster.Core\DnnSharp.FaqMaster.Core.csproj">
+      <Project>{ad16b11a-1129-4c1d-a138-b10d50c9d20b}</Project>
+      <Name>DnnSharp.FaqMaster.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishPackage|AnyCPU'">
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAutoBuild|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAutoBuild|AnyCPU'">
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57691</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

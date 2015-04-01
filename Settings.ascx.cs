@@ -23,7 +23,7 @@ namespace DnnSharp.FaqMaster
             if (!Page.IsPostBack) {
                 
                 // load templates
-                foreach (string dir in Directory.GetDirectories(App.BasePath + "/templates/")) {
+                foreach (string dir in Directory.GetDirectories(App.Info.BasePath + "/templates/")) {
                     ddTemplates.Items.Add(new ListItem(Path.GetFileName(dir), Path.GetFileName(dir)));
                 }
 

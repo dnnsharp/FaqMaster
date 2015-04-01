@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnnSharp.FaqMaster.Core", "DnnSharp.FaqMaster.Core\DnnSharp.FaqMaster.Core.csproj", "{AD16B11A-1129-4C1D-A138-B10D50C9D20B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnnSharp.FaqMaster", "DnnSharp.FaqMaster.csproj", "{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugAutoBuild|Any CPU = DebugAutoBuild|Any CPU
+		PublishPackage|Any CPU = PublishPackage|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseAutoBuild|Any CPU = ReleaseAutoBuild|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.DebugAutoBuild|Any CPU.ActiveCfg = DebugAutoBuild|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.DebugAutoBuild|Any CPU.Build.0 = DebugAutoBuild|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.PublishPackage|Any CPU.ActiveCfg = PublishPackage|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.PublishPackage|Any CPU.Build.0 = PublishPackage|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.ReleaseAutoBuild|Any CPU.ActiveCfg = ReleaseAutoBuild|Any CPU
+		{AD16B11A-1129-4C1D-A138-B10D50C9D20B}.ReleaseAutoBuild|Any CPU.Build.0 = ReleaseAutoBuild|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.DebugAutoBuild|Any CPU.ActiveCfg = DebugAutoBuild|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.DebugAutoBuild|Any CPU.Build.0 = DebugAutoBuild|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.PublishPackage|Any CPU.ActiveCfg = PublishPackage|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.PublishPackage|Any CPU.Build.0 = PublishPackage|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.ReleaseAutoBuild|Any CPU.ActiveCfg = ReleaseAutoBuild|Any CPU
+		{A2BEEA20-9B34-4D7B-9E48-18BE1E0CB0CF}.ReleaseAutoBuild|Any CPU.Build.0 = ReleaseAutoBuild|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

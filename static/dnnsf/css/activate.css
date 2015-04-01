@@ -1,0 +1,12 @@
+.form-group .text-muted {
+  margin: 4px;
+}
+.cors .warn-cors {
+  display: none;
+}
+.show-cors {
+  display: none;
+}
+.cors .show-cors {
+  display: block;
+}
