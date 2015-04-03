@@ -1,6 +1,6 @@
 <dotnetnuke version="5.0" type="Package" xmlns:fo="http://www.w3.org/1999/XSL/Format">
   <packages>
-    <package name="avt.FaqMaster" type="Module" version="01.00.18">
+    <package name="avt.FAQMaster" type="Module" version="01.00.18">
       <friendlyName>avt.FaqMaster</friendlyName>
       <description>A FAQ module.</description>
       <iconFile>~/DesktopModules/DnnSharp/FaqMaster/static/images/faq-master-32x32t.png</iconFile>
@@ -48,7 +48,7 @@
         </component>
         <component type="Module">
           <desktopModule>
-            <moduleName>FAQ Master</moduleName>
+            <moduleName>avt.FAQMaster</moduleName>
             <foldername>DnnSharp\FaqMaster</foldername>
             <businessControllerClass>DnnSharp.FaqMaster.Core.FaqMasterController, DnnSharp.FaqMaster.Core</businessControllerClass>
             <supportedFeatures>
