@@ -58,7 +58,7 @@
             </supportedFeatures>
             <moduleDefinitions>
               <moduleDefinition>
-                <friendlyName>avt.FaqMaster</friendlyName>
+                <friendlyName>avt.FAQMaster</friendlyName>
                 <defaultCacheTime>-1</defaultCacheTime>
                 <moduleControls>
                   <moduleControl>
