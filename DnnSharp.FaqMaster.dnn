@@ -1,13 +1,13 @@
 <dotnetnuke version="5.0" type="Package" xmlns:fo="http://www.w3.org/1999/XSL/Format">
   <packages>
     <package name="avt.FAQMaster" type="Module" version="01.00.18">
-      <friendlyName>avt.FaqMaster</friendlyName>
+      <friendlyName>avt.FAQMaster</friendlyName>
       <description>A FAQ module.</description>
       <iconFile>~/DesktopModules/DnnSharp/FaqMaster/static/images/faq-master-32x32t.png</iconFile>
       <owner>
         <name>DNN Sharp</name>
         <organization>DNN Sharp</organization>
-        <url>http://dnnsharp.com/dnn/modules/help/faq-master</url>
+        <url>http://www.dnnsharp.com/dnn/modules/help/faq-master</url>
         <email>support@dnnsharp.com</email>
       </owner>
       <license src="license.txt" />
