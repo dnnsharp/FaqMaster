@@ -44,6 +44,11 @@
               <sourceFileName>DnnSharp.FaqMaster.Core.dll</sourceFileName>
               <version>01.00.22</version>
             </assembly>
+              <assembly>
+                  <name>DnnSharp.Common.dll</name>
+                  <sourceFileName>DnnSharp.Common.dll</sourceFileName>
+                  <version>01.01.213</version>
+              </assembly>
           </assemblies>
         </component>
         <component type="Module">

@@ -27,6 +27,7 @@ namespace DnnSharp.FaqMaster
 
         private void Page_Init(object sender, System.EventArgs e)
         {
+            App.Instance.Init();
         }
 
         private void Page_Load(object sender, System.EventArgs e)
