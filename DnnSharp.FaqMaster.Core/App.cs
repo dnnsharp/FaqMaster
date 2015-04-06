@@ -116,7 +116,6 @@ namespace DnnSharp.FaqMaster.Core
 
         private App()
         {
-
             // app init
             Info = new AppInfo() {
                 Name = "FAQ Master",
@@ -134,9 +133,11 @@ namespace DnnSharp.FaqMaster.Core
                 IsDebug = false,
 #endif
             };
+            
+            UpdateCommon("DnnSharp.Common.dll");
+
             // IsActivated depends on AppInfo, that's why we put it down here
             Info.IsActivated = App.IsActivated();
-            UpdateCommon("DnnSharp.Common.dll");
 
             // init container
             Container = new LiteContainer();
@@ -171,6 +172,11 @@ namespace DnnSharp.FaqMaster.Core
             //            data == null ? "" : string.Format("{0} #{1}", data.Module.ModuleTitle, data.ModuleId),
             //            message);
             //    }));
+        }
+
+        public void Init()
+        {
+
         }
 
         void UpdateCommon(string name)
