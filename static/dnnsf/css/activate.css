@@ -1,12 +1,12 @@
 .form-group .text-muted {
   margin: 4px;
 }
-.cors .warn-cors {
+.dnnsf-cors .warn-cors {
   display: none;
 }
 .show-cors {
   display: none;
 }
-.cors .show-cors {
+.dnnsf-cors .show-cors {
   display: block;
 }

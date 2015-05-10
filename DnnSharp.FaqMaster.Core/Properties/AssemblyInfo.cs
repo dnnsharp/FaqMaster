@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DNN Sharp")]
 [assembly: AssemblyProduct("FAQ Master")]
-[assembly: AssemblyCopyright("Copyright © DNN Sharp 2014")]
+[assembly: AssemblyCopyright("Copyright © DNN Sharp 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.22")]
-[assembly: AssemblyFileVersion("1.0.22")]
+[assembly: AssemblyVersion("1.1.22")]
+[assembly: AssemblyFileVersion("1.1.22")]

@@ -82,10 +82,11 @@ angular.module('Activate', [])
                 }, function (data) {
                     $scope.licenseType = data;
                     // if additional info not required, proceed to activation
-                    if ($scope.licenseType.code == 'DOM' || $scope.licenseType.code == '3DOM' || 
-                        $scope.licenseType.code == 'XDOM' || $scope.licenseType.code == '3XDOM' || $scope.licenseType.code == 'SRV') {
+                    if ($scope.licenseType.code != 'ENT' && $scope.licenseType.code != 'ENTADD' && $scope.licenseType.code != 'DEV') {
+                        $scope.isEnterprise = false;
                         $scope.loading = false;
                     } else {
+                        $scope.isEnterprise = true;
                         fnActivate();
                     }
                 });

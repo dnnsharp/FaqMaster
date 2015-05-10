@@ -26,6 +26,10 @@ if (typeof g_dnnsfState != 'undefined')
 dnnsf.init = function ($, appState) {
     // save dnnsfjQuery object for future use
     dnnsf.$ = $;
+    if (!window.dnnsfjQuery)
+        window.dnnsfjQuery = $;
+    if (!window.jQuery)
+        window.jQuery = $;
 
     // execute the initialization code when done loading
     (function (fn) {
