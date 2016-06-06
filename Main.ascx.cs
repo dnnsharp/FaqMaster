@@ -43,21 +43,6 @@ namespace DnnSharp.FaqMaster
                 
                 // admin panel
                 pnlAddFaq.Visible = HasAdminRights();
-
-                var licensStatus = new DnnSharp.Common.Licensing.v3.RegCoreClient().IsActivated(App.Info);
-                pnlActivate.Visible = false;
-                var activationUrl = string.Format("{0}/RegCore/Activate.aspx?returnurl={1}", TemplateSourceDirectory, HttpUtility.UrlEncode(Request.RawUrl));
-                if (licensStatus.Code != Common.Licensing.v3.LicenseStatus.eCode.Ok) {
-                    //pnlActivate.Visible = !App.IsActivated();
-                    pnlActivate.InnerHtml = licensStatus.Message +
-                        string.Format("<br /><a href=\"{0}\">Activate or Unlock Trial.</a>", activationUrl);
-                    pnlActivate.Style["color"] = "#cc4444";
-                    pnlActivate.Visible = true;
-                } else if (HasAdminRights()) {
-                    pnlActivate.InnerHtml = licensStatus.Message +
-                        string.Format("<br /><a href=\"{0}\">Add more licenses.</a>", activationUrl);
-                    pnlActivate.Visible = true;
-                }
                 BindFaqs();
             }
         }
@@ -222,18 +207,17 @@ namespace DnnSharp.FaqMaster
                 Portal = PortalSettings
             };
 
-            if (App.IsActivated()) {
-                foreach (FaqInfo faq in faqs) {
-                    Writer.WriteStartElement("faq");
-                    Writer.WriteElementString("id", faq.FaqId.ToString());
-                    Writer.WriteElementString("relPath", "#faq-" + ModuleId.ToString() + "-" + faq.FaqId.ToString());
-                    Writer.WriteElementString("question", TokenUtil.Tokenize(faq.Question, tknParams).Replace("\n", "<br />"));
-                    Writer.WriteElementString("answer", TokenUtil.Tokenize(faq.Answer, tknParams).Replace("\n", "<br />"));
-                    Writer.WriteElementString("index", faq.ViewOrder.ToString());
-                    Writer.WriteElementString("opened", activeFaq == faq.FaqId ? "true" : "false");
-                    Writer.WriteEndElement(); // faq
-                }
+            foreach (FaqInfo faq in faqs) {
+                Writer.WriteStartElement("faq");
+                Writer.WriteElementString("id", faq.FaqId.ToString());
+                Writer.WriteElementString("relPath", "#faq-" + ModuleId.ToString() + "-" + faq.FaqId.ToString());
+                Writer.WriteElementString("question", TokenUtil.Tokenize(faq.Question, tknParams).Replace("\n", "<br />"));
+                Writer.WriteElementString("answer", TokenUtil.Tokenize(faq.Answer, tknParams).Replace("\n", "<br />"));
+                Writer.WriteElementString("index", faq.ViewOrder.ToString());
+                Writer.WriteElementString("opened", activeFaq == faq.FaqId ? "true" : "false");
+                Writer.WriteEndElement(); // faq
             }
+            
 
             Writer.WriteEndElement(); // faqs
             Writer.WriteEndElement(); // root

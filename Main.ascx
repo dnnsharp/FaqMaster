@@ -4,9 +4,6 @@
     
 </div>
 
-<div runat = "server" id = "pnlActivate" style = "font-weight: bold; border-top: 1px solid #999; padding: 10px 0;">
-</div>
-
 <div id = "pnlAddFaq" runat = "server" visible = "false" style = "margin-top: 20px;">
 
     <div style = "font-weight: bold; font-size: 16px; border-bottom: 1px solid #a1a1a1;" class = " text_blue_strong ">Add/Edit Faq</div>

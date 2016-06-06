@@ -48,68 +48,6 @@ namespace DnnSharp.FaqMaster.Core
 
         #endregion
 
-        #region Licensing
-
-
-        public static string Version
-        {
-            get
-            {
-                var version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version;
-                return version.ToString(2);
-            }
-        }
-
-        public static string Build
-        {
-            get
-            {
-                var version = System.Reflection.Assembly.GetAssembly(typeof(App)).GetName().Version;
-                return version.ToString(3);
-            }
-        }
-
-        static string LicenseFilePath
-        {
-            get
-            {
-                var asm = System.Reflection.Assembly.GetAssembly(typeof(App));
-                var asmPath = asm.CodeBase.Replace("file:///", "").Replace('/', '\\');
-
-                if (Path.GetExtension(asmPath).ToLower() == ".dll") {
-                    asmPath = Path.GetDirectoryName(asmPath);
-                }
-
-                if (asmPath.IndexOf(System.AppDomain.CurrentDomain.BaseDirectory.Replace('/', '\\')) == -1) {
-                    // it's not in the bin folder
-                    asmPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "bin");
-                }
-
-                return Path.Combine(asmPath, asm.GetName().Name.Replace(".Core", "") + ".lic");
-            }
-        }
-
-        //public LicenseBase License
-        //{
-        //    get { return Container.ResolveProperty("License") as LicenseBase; }
-        //}
-
-        public static bool IsActivated()
-        {
-            var status = new DnnSharp.Common.Licensing.v3.RegCoreClient().IsActivated(Info);
-            return status.Code == DnnSharp.Common.Licensing.v3.LicenseStatus.eCode.Ok;
-            //return RegCore.IsActivated(App.Info.Code, App.Info.Version, HttpContext.Current.Request.Url.Host, false);
-        }
-
-        public static string GetActivationUrl(PortalSettings portal)
-        {
-            return App.Info.BaseUrl + "/RegCore/Activate.aspx?_alias=" + HttpUtility.UrlEncode(portal.PortalAlias.HTTPAlias)
-            + "&returnurl=" + HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl);
-        }
-
-        #endregion
-
-
         #region Initialization
 
         public TypedLogger<FaqMasterSettings> Logger { get; set; }
@@ -135,9 +73,6 @@ namespace DnnSharp.FaqMaster.Core
             };
             
             UpdateCommon("DnnSharp.Common.dll");
-
-            // IsActivated depends on AppInfo, that's why we put it down here
-            Info.IsActivated = App.IsActivated();
 
             // init container
             Container = new LiteContainer();
