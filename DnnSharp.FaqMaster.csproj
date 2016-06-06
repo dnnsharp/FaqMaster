@@ -24,6 +24,7 @@
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,10 +79,6 @@
       <DependentUpon>Main.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegCore\Activate.aspx.cs">
-      <DependentUpon>Activate.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Settings.ascx.cs">
       <DependentUpon>Settings.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -94,7 +91,6 @@
     <Content Include="DataProviders.FaqMaster\SqlDataProvider\readme.txt" />
     <Content Include="license.txt" />
     <Content Include="Main.ascx" />
-    <Content Include="RegCore\Activate.aspx" />
     <Content Include="release-notes.html" />
     <Content Include="Settings.ascx" />
     <Content Include="static\angular\angular-animate.js" />
@@ -128,10 +124,6 @@
     <Content Include="static\bootstrap\js\bootstrap.js" />
     <Content Include="static\bootstrap\js\bootstrap.min.js" />
     <Content Include="static\bootstrap\js\npm.js" />
-    <Content Include="static\dnnsf\activate.js" />
-    <Content Include="static\dnnsf\css\activate.css" />
-    <Content Include="static\dnnsf\dnnsf.js" />
-    <Content Include="static\dnnsf\tpl\activate.html" />
     <Content Include="static\images\faq-master-32x32t.png" />
     <Content Include="static\img\loading.gif" />
     <Content Include="static\jquery.min.js" />
@@ -171,7 +163,6 @@
     <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="static\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="static\dnnsf\css\activate.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminApi.ashx" />

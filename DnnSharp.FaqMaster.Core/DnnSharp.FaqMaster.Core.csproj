@@ -96,17 +96,6 @@ goto end
 
 :copyfiles
 
-xcopy "$(SolutionDir)..\Common\static\angular\*.*" "$(SolutionDir)static\angular\*.*" /y /q /s
-xcopy "$(SolutionDir)..\Common\static\bootstrap\*.*" "$(SolutionDir)static\bootstrap\*.*" /y /q /s
-xcopy "$(SolutionDir)..\Common\static\jquery.min.js" "$(SolutionDir)static\jquery.min.js*" /y /q
-xcopy "$(SolutionDir)..\Common\static\jquery-ui.interactions.min.js" "$(SolutionDir)static\jquery-ui.interactions.min.js*" /y /q
-xcopy "$(SolutionDir)..\Common\static\jquery.ui.touch-punch.min.js" "$(SolutionDir)static\jquery.ui.touch-punch.min.js*" /y /q
-xcopy "$(SolutionDir)..\Common\static\modernizr.min.js" "$(SolutionDir)static\modernizr.min.js*" /y /q
-xcopy "$(SolutionDir)..\Common\static\dnnsf\dnnsf.js" "$(SolutionDir)static\dnnsf\dnnsf.js*" /y /q
-xcopy "$(SolutionDir)..\Common\static\dnnsf\activate.js" "$(SolutionDir)static\dnnsf\activate.js*" /y /q
-xcopy "$(SolutionDir)..\Common\static\dnnsf\tpl\activate.html" "$(SolutionDir)static\dnnsf\tpl\activate.html*" /y /q
-xcopy "$(SolutionDir)..\Common\static\dnnsf\css\activate.css" "$(SolutionDir)static\dnnsf\css\activate.css*" /y /q
-
 xcopy "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\..\..\bin\*.*" /y /q
 xcopy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\..\..\bin\*.*" /y /q
 

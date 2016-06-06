@@ -55,26 +55,5 @@ namespace DnnSharp.FaqMaster.Core.Services
 
         #endregion
 
-
-        #region Licensing
-
-        [WebMethod(DefaultResponseType = eResponseType.Json, RequiredEditPermissions = true)]
-        public void SaveActivation()
-        {
-            var json = new StreamReader(HttpContext.Current.Request.InputStream).ReadToEnd();
-            var newLics = new JavaScriptSerializer().Deserialize<IEnumerable<LicenseInfo>>(json);
-            new RegCoreClient().AddActivations(newLics);
-        }
-
-        [WebMethod(DefaultResponseType = eResponseType.Json, RequiredEditPermissions = true)]
-        public DnnSharp.Common.Licensing.v3.LicenseStatus GetLicenseStatus(PortalSettings portalSettings)
-        {
-            var status = new DnnSharp.Common.Licensing.v3.RegCoreClient().IsActivated(App.Info);
-            status.ActivationUrl = App.GetActivationUrl(portalSettings);
-            return status;
-        }
-
-        #endregion
-
     }
 }

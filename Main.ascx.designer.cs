@@ -22,15 +22,6 @@ namespace DnnSharp.FaqMaster {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlFaqs;
         
         /// <summary>
-        /// pnlActivate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlActivate;
-        
-        /// <summary>
         /// pnlAddFaq control.
         /// </summary>
         /// <remarks>
